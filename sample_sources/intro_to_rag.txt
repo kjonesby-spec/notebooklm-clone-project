@@ -1,0 +1,7 @@
+Retrieval-augmented generation (RAG) combines document retrieval with language-model generation.
+Documents are extracted and divided into chunks. Each chunk is converted to an embedding and stored
+in a vector database. When a user asks a question, the system embeds the question, retrieves relevant
+chunks, and supplies them to a language model as context. Grounding the answer in retrieved material
+can improve factuality and enables citations. Similarity retrieval chooses the closest chunks. Maximum
+marginal relevance (MMR) balances relevance with diversity, which can reduce repeated evidence.
+

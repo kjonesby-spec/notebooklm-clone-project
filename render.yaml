@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: notebooklm-clone
+    runtime: docker
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: notebooklm-data
+      mountPath: /var/data
+      sizeGB: 1
+
