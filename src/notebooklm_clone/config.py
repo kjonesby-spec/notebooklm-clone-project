@@ -16,7 +16,7 @@ DATABASE_PATH = DATA_DIR / "notebooklm.db"
 VECTOR_DATABASE_PATH = DATA_DIR / "vectors.sqlite"
 ARTIFACTS_PATH = DATA_DIR / "artifacts"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 PORT = int(os.getenv("PORT", "7860"))
 
 for directory in (DATA_DIR, ARTIFACTS_PATH):
