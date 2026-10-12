@@ -77,7 +77,10 @@ class VectorStore:
         if not rows:
             return []
         query = embed_text(question)
-        vectors = np.asarray([json.loads(row["embedding_model"]) for row in rows], dtype=np.float32)
+        vectors = np.asarray(
+            [json.loads(row["embedding"]) for row in rows],
+            dtype=np.float32,
+        )
         scores = vectors @ query
         order = np.argsort(scores)[::-1]
         count = min(len(rows), max(int(top_k) * 3, int(top_k)))
