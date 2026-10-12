@@ -52,7 +52,7 @@ class VectorStore:
     def add_chunks(self, notebook_id, source_id, source_name, chunks):
         if not chunks:
             return
-        embeddings = embedding_model().encode(chunks, normalize_embeddings=True)
+        embeddings = [embed_text(chunk) for chunk in chunks]
         rows = [
             (f"{source_id}-{i}", notebook_id, source_id, source_name, i, text, json.dumps(vector.tolist()))
             for i, (text, vector) in enumerate(zip(chunks, embeddings))
@@ -77,7 +77,7 @@ class VectorStore:
         if not rows:
             return []
         query = embed_text(question)
-        vectors = np.asarray([json.loads(row["embedding"]) for row in rows], dtype=np.float32)
+        vectors = np.asarray([json.loads(row["embedding_model"]) for row in rows], dtype=np.float32)
         scores = vectors @ query
         order = np.argsort(scores)[::-1]
         count = min(len(rows), max(int(top_k) * 3, int(top_k)))
