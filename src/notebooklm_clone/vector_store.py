@@ -1,17 +1,30 @@
+import hashlib
 import json
+import re
 import sqlite3
-from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
 from .config import VECTOR_DATABASE_PATH
 
 
-@lru_cache(maxsize=1)
-def embedding_model():
-    return SentenceTransformer("all-MiniLM-L6-v2")
+EMBEDDING_DIMENSIONS = 384
+
+
+def embed_text(text):
+    """Create a lightweight normalized hashing embedding."""
+    vector = np.zeros(EMBEDDING_DIMENSIONS, dtype=np.float32)
+    tokens = re.findall(r"[a-z0-9]+", text.lower())
+
+    for token in tokens:
+        digest = hashlib.sha256(token.encode("utf-8")).digest()
+        index = int.from_bytes(digest[:4], "little") % EMBEDDING_DIMENSIONS
+        sign = 1.0 if digest[4] % 2 == 0 else -1.0
+        vector[index] += sign
+
+    norm = np.linalg.norm(vector)
+    return vector / norm if norm else vector
 
 
 class VectorStore:
@@ -63,7 +76,7 @@ class VectorStore:
             rows = db.execute("SELECT * FROM vectors WHERE notebook_id=?", (notebook_id,)).fetchall()
         if not rows:
             return []
-        query = embedding_model().encode([question], normalize_embeddings=True)[0]
+        query = embed_text(question)
         vectors = np.asarray([json.loads(row["embedding"]) for row in rows], dtype=np.float32)
         scores = vectors @ query
         order = np.argsort(scores)[::-1]
