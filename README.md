@@ -2,6 +2,13 @@
 
 A full-stack, notebook-based study assistant that ingests documents and webpages, retrieves relevant evidence, answers with Gemini and citations, preserves notebook-specific state, and generates study artifacts.
 
+## Project Deliverables
+
+- **GitHub Repository:** https://github.com/kjonesby-spec/notebooklm-clone-project
+- **Live Application:** https://notebooklm-clone-project.onrender.com
+- **Video Demonstration:** PASTE_VIDEO_LINK_HERE
+- **Final Evidence Report:** Submitted as `Kennedi_Jones_Byrd_NotebookLM_Final_Evidence.pdf`
+
 ## Required features implemented
 
 - Notebook create, rename, delete, switch, and isolation
